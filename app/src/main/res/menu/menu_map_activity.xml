@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_Logout"
+        android:icon="@android:drawable/ic_lock_power_off"
+        android:title="@string/logout">
+
+    </item>
+    <item
+        android:id="@+id/menu_about_us"
+        android:icon="@drawable/ic_about_us"
+        android:title="@string/about_us" />
+</menu>

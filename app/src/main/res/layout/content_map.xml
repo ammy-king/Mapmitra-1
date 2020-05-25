@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_map"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapsActivity"
+   tools:menu="@menu/menu_profile_activity">
+
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-118dp"
+        tools:layout_editor_absoluteY="149dp"
+        />
+
+
+    <SearchView
+        android:id="@+id/sv_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_round"
+        android:backgroundTint="#A4C7F8"
+        android:backgroundTintMode="src_over"
+        android:elevation="5dp"
+        android:goIcon="@drawable/bg_round"
+        android:iconifiedByDefault="false"
+        android:inputType="text"
+        android:queryHint="@string/search_place"
+        android:searchIcon="@android:drawable/ic_search_category_default"
+        android:theme="@style/AppTheme"/>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/btm_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:menu="@menu/btm_nav_menu" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnDirection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_directions"
+        android:focusable="true"
+        android:layout_above="@id/btm_nav"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"
+        />
+
+
+</RelativeLayout>
