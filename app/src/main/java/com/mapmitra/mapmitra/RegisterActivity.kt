@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
             signUpUser()
         }
         txtLogIn.setOnClickListener {
-            startActivity(Intent(this,LoginActivity::class.java))
+            startActivity(Intent(this , LoginActivity::class.java))
 
         }
 
@@ -38,13 +39,15 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun signUpUser() {
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.text.toString()).matches() || etEmail.text.toString().isEmpty()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.text.toString())
+                .matches() || etEmail.text.toString().isEmpty()
+        ) {
             etEmail.error = "Please enter valid email"
             etEmail.requestFocus()
             return
         }
 
-        if (etName.text.toString().isEmpty()){
+        if (etName.text.toString().isEmpty()) {
             etName.error = "Please Enter Your Name"
             etName.requestFocus()
         }
@@ -52,17 +55,17 @@ class RegisterActivity : AppCompatActivity() {
 
 
         if (etPassword.text.toString().length < 6) {
-            if (etPassword.text.toString().isEmpty()){
+            if (etPassword.text.toString().isEmpty()) {
                 etPassword.error = "Please enter Password"
                 etPassword.requestFocus()
-            }else {
+            } else {
                 etPassword.error = "Please enter password with minimum 6 characters"
                 etPassword.requestFocus()
                 return
             }
         }
 
-        if (etMobile.text.length!=10) {
+        if (etMobile.text.length != 10) {
             etMobile.error = "Please Enter Valid Mobile Number"
             etMobile.requestFocus()
             return
@@ -75,34 +78,53 @@ class RegisterActivity : AppCompatActivity() {
         val mobile = etMobile.text.toString().toLong()
 
 
-        auth.createUserWithEmailAndPassword(etEmail.text.toString(), etPassword.text.toString())
-            .addOnCompleteListener(this){userCreationTask->
+        auth.createUserWithEmailAndPassword(etEmail.text.toString() , etPassword.text.toString())
+            .addOnCompleteListener(this) { userCreationTask ->
                 btnSignUp.isEnabled = true
                 progressBar.visibility = View.GONE
-                if(userCreationTask.isSuccessful){
-                    Toast.makeText(this,"User Creation Successful",Toast.LENGTH_SHORT).show()
+                if (userCreationTask.isSuccessful) {
+                    auth.currentUser?.sendEmailVerification()
+                        ?.addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val builder = AlertDialog.Builder(this@RegisterActivity)
+                                builder.setTitle("Varify Email")
+                                    .setMessage("A verification link is sent to you via Email, Please Verify your Email. ")
+                                    .setPositiveButton("OK") { _ , _ ->
+                                        val user = User(name , eMail , mobile)
 
-                    val user = User(name,eMail,mobile)
+                                        firestoreDB.collection("users")
+                                            .document(auth.currentUser!!.uid)
+                                            .set(user)
+                                            .addOnCompleteListener { userDataUploadTask ->
+                                                if (userDataUploadTask.isSuccessful) {
 
-                    firestoreDB.collection("users")
-                        .document(auth.currentUser!!.uid)
-                        .set(user)
-                        .addOnCompleteListener { userDataUploadTask->
-                            if (userDataUploadTask.isSuccessful){
+                                                    etEmail.text.clear()
+                                                    etMobile.text.clear()
+                                                    etPassword.text.clear()
 
-                                etEmail.text.clear()
-                                etMobile.text.clear()
-                                etPassword.text.clear()
+                                                    auth.signOut()
 
-                                auth.signOut()
+                                                    startActivity(
+                                                        Intent(
+                                                            this ,
+                                                            LoginActivity::class.java
+                                                        )
+                                                    )
+                                                }
+                                            }
+                                    }
+                                    .show()
 
-                                startActivity(Intent(this, LoginActivity::class.java))
+
                             }
                         }
 
-                }
-                else{
-                    Toast.makeText(this, "Sign Up failed. Try again after some time.", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        this ,
+                        "Sign Up failed. Try again after some time." ,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 

@@ -24,8 +24,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (ContextCompat.checkSelfPermission(this@MainActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            startActivity(Intent(this@MainActivity, MapsActivity::class.java))
+        if (ContextCompat.checkSelfPermission(
+                this@MainActivity ,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            startActivity(Intent(this@MainActivity , MapsActivity::class.java))
             finish()
             return
         }
@@ -35,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(object : PermissionListener {
                     override fun onPermissionGranted(response: PermissionGrantedResponse) {
-                        startActivity(Intent(this@MainActivity, MapsActivity::class.java))
+                        startActivity(Intent(this@MainActivity , MapsActivity::class.java))
                         finish()
                     }
 
@@ -44,19 +48,26 @@ class MainActivity : AppCompatActivity() {
                             val builder = AlertDialog.Builder(this@MainActivity)
                             builder.setTitle("Permission Denied")
                                 .setMessage("Permission to access loaction is permanently denied. You need to go to settings to allow the permission.")
-                                .setNegativeButton("Cancel", null)
-                                .setPositiveButton("OK") { dialogInterface, i ->
+                                .setNegativeButton("Cancel" , null)
+                                .setPositiveButton("OK") { dialogInterface , i ->
                                     val intent = Intent()
                                     intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                                    intent.data = Uri.fromParts("package", packageName, null)
+                                    intent.data = Uri.fromParts("package" , packageName , null)
                                 }
                                 .show()
                         } else {
-                            Toast.makeText(this@MainActivity, "Permission Denied", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@MainActivity ,
+                                "Permission Denied" ,
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
-                    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest, token: PermissionToken) {
+                    override fun onPermissionRationaleShouldBeShown(
+                        permission: PermissionRequest ,
+                        token: PermissionToken
+                    ) {
                         token.continuePermissionRequest()
                     }
                 })

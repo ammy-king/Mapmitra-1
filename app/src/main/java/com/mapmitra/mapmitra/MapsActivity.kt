@@ -2,7 +2,6 @@ package com.mapmitra.mapmitra
 
 import android.Manifest
 import android.app.*
-import android.content.ClipDescription
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
@@ -23,7 +22,6 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -52,7 +50,7 @@ class MapsActivity : FragmentActivity() , OnMapReadyCallback , TaskLoadedCallbac
     private var mMap: GoogleMap? = null
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     private var placesClient: PlacesClient? = null
-    public var mLastKnownLocation: Location? = null
+    var mLastKnownLocation: Location? = null
     private var locationCallback: LocationCallback? = null
     private var mapView: View? = null
     val firestoreDB = FirebaseFirestore.getInstance()
@@ -63,8 +61,8 @@ class MapsActivity : FragmentActivity() , OnMapReadyCallback , TaskLoadedCallbac
     var requestSP = 0
     lateinit var notificationManager: NotificationManager
     lateinit var notificationChannel: NotificationChannel
-    lateinit var builder : Notification.Builder
-    lateinit var description :String
+    lateinit var builder: Notification.Builder
+    lateinit var description: String
     private val channelId = "com.mapmitra.mapmitra"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -178,16 +176,26 @@ class MapsActivity : FragmentActivity() , OnMapReadyCallback , TaskLoadedCallbac
                     mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng , 14f))
 
                     btnDirection.isEnabled = true
-                      btnDirection.setOnClickListener {
-                          mFusedLocationProviderClient!!.lastLocation
-                              .addOnSuccessListener { location ->
-                                  if (location != null) {
-                                      var dest = LatLng(location.latitude , location.longitude)
-                                      FetchURL(this@MapsActivity).execute(getUrl(dest , latLng , "driving") , "driving")
-                                      Toast.makeText(this@MapsActivity,"Currently Not Available",Toast.LENGTH_SHORT).show()
-                                  }
-                              }
-                      }
+                    btnDirection.setOnClickListener {
+                        mFusedLocationProviderClient!!.lastLocation
+                            .addOnSuccessListener { location ->
+                                if (location != null) {
+                                    var dest = LatLng(location.latitude , location.longitude)
+                                    FetchURL(this@MapsActivity).execute(
+                                        getUrl(
+                                            dest ,
+                                            latLng ,
+                                            "driving"
+                                        ) , "driving"
+                                    )
+                                    Toast.makeText(
+                                        this@MapsActivity ,
+                                        "Currently Not Available" ,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                    }
 
 
                 }
@@ -305,6 +313,12 @@ class MapsActivity : FragmentActivity() , OnMapReadyCallback , TaskLoadedCallbac
                                         Toast.LENGTH_LONG
                                     ).show()
                                     addNotification(type)
+
+                                    val builder = AlertDialog.Builder(this@MapsActivity)
+                                    builder.setTitle("Obstacle Ahead!!")
+                                        .setMessage("Be Alert!! $type is Ahead!! ")
+                                        .setPositiveButton("OK") { _ , _ -> }
+                                        .show()
                                 }
                             }
 
@@ -315,37 +329,41 @@ class MapsActivity : FragmentActivity() , OnMapReadyCallback , TaskLoadedCallbac
     }
 
     private fun addNotification(type: String) {
-        val intent = Intent(this,MapsActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
+        val intent = Intent(this , MapsActivity::class.java)
+        val pendingIntent =
+            PendingIntent.getActivity(this , 0 , intent , PendingIntent.FLAG_UPDATE_CURRENT)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationChannel = NotificationChannel(channelId,"$type Ahead",NotificationManager.IMPORTANCE_HIGH)
+            notificationChannel =
+                NotificationChannel(channelId , "$type Ahead" , NotificationManager.IMPORTANCE_HIGH)
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.GREEN
-            notificationChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), null);
+            notificationChannel.setSound(
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION) ,
+                null
+            )
             notificationChannel.enableVibration(true)
             notificationChannel.lockscreenVisibility
             notificationManager.createNotificationChannel(notificationChannel)
 
-            builder = Notification.Builder(this,channelId)
+            builder = Notification.Builder(this , channelId)
                 .setContentTitle("$type Ahead")
                 .setContentText("Be alert! $type is Ahead.")
                 .setSmallIcon(R.drawable.ic_launcher_round)
-                .setLargeIcon(BitmapFactory.decodeResource(this.resources,R.drawable.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(this.resources , R.drawable.ic_launcher))
                 .setContentIntent(pendingIntent)
 
 
-
-        }else{
+        } else {
             builder = Notification.Builder(this)
                 .setContentTitle("$type Ahead")
                 .setContentText("Be alert! $type is Ahead.")
                 .setSmallIcon(R.drawable.ic_launcher_round)
-                .setLargeIcon(BitmapFactory.decodeResource(this.resources,R.drawable.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(this.resources , R.drawable.ic_launcher))
                 .setContentIntent(pendingIntent)
         }
 
-        notificationManager.notify(1234,builder.build())
+        notificationManager.notify(1234 , builder.build())
     }
 
     private fun addObstacle(type: String) {
@@ -395,7 +413,7 @@ class MapsActivity : FragmentActivity() , OnMapReadyCallback , TaskLoadedCallbac
                                 LatLng(
                                     mLastKnownLocation!!.latitude ,
                                     mLastKnownLocation!!.longitude
-                                ) , 18f
+                                ) , 20f
                             )
                         )
                     }

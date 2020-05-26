@@ -10,11 +10,12 @@ import com.mapmitra.mapmitra.models.Developers
 import kotlinx.android.synthetic.main.activity_about_us.*
 
 private const val TAG = "AboutUs"
+
 class AboutUs : AppCompatActivity() {
 
     lateinit var firestoreDB: FirebaseFirestore
     lateinit var Devs: MutableList<Developers>
-    lateinit var adapter : DevsAdapter
+    lateinit var adapter: DevsAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +23,7 @@ class AboutUs : AppCompatActivity() {
         setContentView(R.layout.activity_about_us)
 
         Devs = mutableListOf()
-        adapter = DevsAdapter(this,Devs)
+        adapter = DevsAdapter(this , Devs)
 
         rvDeveloper.adapter = adapter
         rvDeveloper.layoutManager = LinearLayoutManager(this)
@@ -33,20 +34,20 @@ class AboutUs : AppCompatActivity() {
 
         val DevReference = firestoreDB
             .collection("Developers")
-            .orderBy("Name", Query.Direction.DESCENDING)
+            .orderBy("Name" , Query.Direction.DESCENDING)
 
 
-        DevReference.addSnapshotListener { snapshot, exception ->
-            if(exception != null || snapshot == null) {
-                Log.e(TAG,"Exception while Fetching Developers",exception)
+        DevReference.addSnapshotListener { snapshot , exception ->
+            if (exception != null || snapshot == null) {
+                Log.e(TAG , "Exception while Fetching Developers" , exception)
                 return@addSnapshotListener
             }
             val devsList = snapshot.toObjects(Developers::class.java)
             Devs.clear()
             Devs.addAll(devsList)
             adapter.notifyDataSetChanged()
-            for(dev in devsList){
-                Log.i(TAG,"Developer $dev, ${dev.Email} ")
+            for (dev in devsList) {
+                Log.i(TAG , "Developer $dev, ${dev.Email} ")
             }
         }
     }

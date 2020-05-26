@@ -5,10 +5,8 @@
     <string name="log_in">Log In</string>
     <string name="username_or_email">Username or Email</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="sign_up_for_facebook">Sign Up for MapMitra</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="sign_up_for_mapmitra">Sign Up for MapMitra</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAjRJPzX6drdwt37HLw4NVok1r17712z8I</string>
-    <string name="logout">Logout</string>
     <string name="about_us">About Us</string>
     <string name="grant_permission">Grant Permission</string>
     <string name="app_needs_permission_to_access_your_device_location_so_please_allow_the_permission">App Needs Permission to Access Your Device Location, So Please Allow the Permission</string>
@@ -18,7 +16,6 @@
     <string name="yash_salunke">Yash Salunke</string>
     <string name="yash3a_gmail_com">Yash3a@gmail.com</string>
     <string name="_91_7057131346">+91 7057131346</string>
-    <string name="this_is_a_sample_post">This is a Sample Post</string>
     <string name="yash">yash</string>
     <string name="search_place">Search a Place</string>
     <string name="profile">Profile</string>
@@ -26,10 +23,11 @@
     <string name="get_my_location">Get My LOcation</string>
     <string name="log_out">Log Out</string>
     <string name="enter_name">Enter Name</string>
-    <string name="name">Name</string>
     <string name="change_name">Change Name</string>
     <string name="change_eMail">Change Email</string>
     <string name="change_mobile">Change Mobile</string>
     <string name="change_password">Change Password</string>
-    <string name="get_direction">Get Direction</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>

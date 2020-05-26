@@ -10,13 +10,13 @@ import com.mapmitra.mapmitra.models.Developers
 
 import kotlinx.android.synthetic.main.item_developer.view.*
 
-class DevsAdapter(val context: Context, val developers: List<Developers>) :
-        RecyclerView.Adapter<DevsAdapter.ViewHolder>() {
+class DevsAdapter(val context: Context , val developers: List<Developers>) :
+    RecyclerView.Adapter<DevsAdapter.ViewHolder>() {
 
     override fun getItemCount() = developers.size
 
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder , position: Int) {
         holder.Bind(developers[position])
     }
 
@@ -33,8 +33,9 @@ class DevsAdapter(val context: Context, val developers: List<Developers>) :
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_developer, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup , viewType: Int): ViewHolder {
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_developer , parent , false)
         return ViewHolder(view)
     }
 

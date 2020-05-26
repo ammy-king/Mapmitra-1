@@ -59,16 +59,28 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/btn_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="10dp"
+        android:text="@string/forgot_password"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryLight"
+        android:textSize="20sp" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="176dp"
         android:layout_height="205dp"
+        android:layout_marginStart="150dp"
         android:indeterminate="true"
-        android:visibility="gone"
-        android:layout_marginStart="150dp"/>
-
-
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -85,23 +97,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/sign_up_for_facebook"
-                android:textColor="#ffffff" />
-
-
-            <TextView
-                android:id="@+id/txtForgotPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:text="@string/forgot_password"
-                android:textColor="#ffffff" />
+                android:text="@string/sign_up_for_mapmitra"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+
+
         </LinearLayout>
 
     </RelativeLayout>
-
 
 
 </LinearLayout>
